@@ -1,8 +1,8 @@
 import logging
 import os
 import shutil
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 import tornado.web
 
@@ -23,9 +23,9 @@ class IndexHandler(tornado.web.RequestHandler):
         if action:
             track = self.core.playback.get_current_track().get()
             if track:
-                track_path = urllib.url2pathname(urlparse.urlparse(track.uri.split('file://')[1]).path)
+                track_path = urllib.request.url2pathname(urllib.parse.urlparse(track.uri.split('file://')[1]).path)
                 if action == 'delete-track':
-                    self.core.playback.next()
+                    next(self.core.playback)
                     try:
                         os.remove(track_path)
                         logger.info("Deleted track '{}'".format(track.name))
@@ -63,7 +63,7 @@ class MoveHandler(tornado.web.RequestHandler):
         # Store path of currently playing album
         track = self.core.playback.get_current_track().get()
         if track:
-            track_path = urllib.url2pathname(urlparse.urlparse(track.uri.split('file://')[1]).path)
+            track_path = urllib.request.url2pathname(urllib.parse.urlparse(track.uri.split('file://')[1]).path)
             self.album_path = os.path.dirname(track_path)
         else:
             return self.redirect('/auto')
@@ -90,7 +90,7 @@ class MoveHandler(tornado.web.RequestHandler):
 
         if to:
             destination_uri = os.path.join(self.config['auto']['base_path'], to)
-            destination_path = urllib.url2pathname(urlparse.urlparse(destination_uri.split('file://')[1]).path)
+            destination_path = urllib.request.url2pathname(urllib.parse.urlparse(destination_uri.split('file://')[1]).path)
 
             logger.info("Moving '{}' to '{}'".format(self.album_path, destination_path))
 

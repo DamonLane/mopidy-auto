@@ -2,7 +2,7 @@ import datetime
 import logging
 import random
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 from mopidy import core
 
@@ -140,7 +140,7 @@ class AutoFrontend(pykka.ThreadingActor, core.CoreListener):
         if len(track_uris) > 0:
             self.history[section_index].append(uri)
             logger.info("Found %d tracks in folder '%s'", len(track_uris),
-                        urllib2.unquote(uri.decode('ascii', 'ignore')))
+                        urllib.parse.unquote(uri.decode('ascii', 'ignore')))
 
             return track_uris
 
