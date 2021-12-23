@@ -88,8 +88,8 @@ class AutoFrontend(pykka.ThreadingActor, core.CoreListener):
         logger.info("Auto play of random album, folder: %s", self.section['folder'])
 
         # Decrease volume if it's higher than sections max_volume
-        if self.core.mixer.get_volume().get() > self.section['max_volume']:
-            self.core.mixer.set_volume(self.section['max_volume'])
+#        if self.core.mixer.get_volume().get() > self.section['max_volume']:
+#            self.core.mixer.set_volume(self.section['max_volume'])
 
         # Find a random album from this sections URI
         uri = self.base_path + self.section['folder']
@@ -139,8 +139,8 @@ class AutoFrontend(pykka.ThreadingActor, core.CoreListener):
         # If tracks were found, save album to history and return tracks
         if len(track_uris) > 0:
             self.history[section_index].append(uri)
-            logger.info("Found %d tracks in folder '%s'", len(track_uris),
-                        urllib.parse.unquote(uri.decode('ascii', 'ignore')))
+#            logger.info("Found %d tracks in folder '%s'", len(track_uris),
+#                        urllib.parse.unquote(uri.decode('ascii', 'ignore')))
 
             return track_uris
 
